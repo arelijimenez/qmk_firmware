@@ -21,7 +21,7 @@ enum custom_keycodes {
   BARS,
   MONEYQ,
   DASHIFT,
-  BACKCARET,
+  BCARET,
   
 };
 
@@ -29,80 +29,58 @@ enum custom_keycodes {
 #define ZOOMKEY LALT(LCTL(LGUI(KC_Z)))
 #define LT1G    LT(1, KC_GRAVE)
 #define LT1S    LT(1, KC_SCOLON)
+#define LT2EQ   LT(2, KC_EQUAL)
+#define ALTEQ   ALT_T(KC_EQUAL)
+#define ALTMN   ALGR_T(KC_MINUS)
+#define CTLESC  CTL_T(KC_ESCAPE)
+#define CTLDEL  CTL_T(KC_DELETE)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-	/*
-  [0] = LAYOUT_ergodox(
-		KC_GRAVE        ,  KC_1       ,  KC_2          ,  KC_3      , KC_4   ,     KC_5  ,   KC_6           ,
-		KC_TAB          ,  KC_Q       ,  KC_W          ,  KC_E      , KC_R   ,     KC_T  ,   ALT_T(KC_EQUAL),
-		CTL_T(KC_ESCAPE),  KC_A       ,  KC_S          ,  KC_D      , KC_F   ,     KC_G  ,
-		KC_LSHIFT       ,  KC_Z       ,  KC_COLN       ,  KC_X      , KC_C   ,     KC_V  ,   KC_B ,
-		CTL_T(KC_DELETE),  KC_F1      ,  LT(1,KC_GRAVE),  KC_MS_BTN1, KC_LGUI,
-		KC_LBRACKET     ,  KC_RBRACKET,  KC_HOME       ,  KC_SPACE  , KC_UNDS,     KC_END,
+
+	[0] = LAYOUT_ergodox_pretty(
+		KC_GRV , KC_1   , KC_2   , KC_3   , KC_4   , KC_5   , KC_6   ,  LT2EQ  , KC_7   , KC_8   , KC_9   , KC_0   , BCARET , KC_BSPC,
+		KC_TAB , KC_Q   , KC_W   , KC_E   , KC_R   , KC_T   , ALTEQ  ,  ALTMN  , KC_Y   , KC_U   , KC_I   , KC_O   , KC_P   , MONEYQ ,
+		CTLESC , KC_A   , KC_S   , KC_D   , KC_F   , KC_G   ,                    KC_H   , KC_J   , KC_K   , KC_L   , LT1S   , KC_QUOT,
+		KC_LSFT, KC_Z   , XTRA   , KC_X   , KC_C   , KC_V   , KC_B   ,  KC_B   , KC_N   , KC_M   , KC_COMM, KC_DOT , KC_SLSH, KC_RSFT,
+		CTLDEL , KC_F1  , LT1G   , KC_BTN1, KC_LGUI,                                      KC_RGUI, KC_LEFT, KC_DOWN, KC_UP  , KC_RGHT,
+		                                             KC_LBRC, KC_RBRC,  KC_LCBR, KC_RCBR,
+		                                                      KC_HOME,  KC_PGUP,
+		                                      KC_SPC , BARS , KC_END ,  KC_PGDN, RCTL_T(KC_ENTER), KC_SPC
+	),
+
+	[1] = LAYOUT_ergodox(
+		_______, KC_F1  , KC_F2  , KC_F3  , KC_F4  , KC_F5  , KC_F6  ,  _______, KC_F7  , KC_F8  , KC_F9  , KC_F10 , KC_F11 , KC_DEL ,
+		_______, KC_EXLM, KC_AT  , KC_LCBR, KC_RCBR, KC_PIPE, _______,  _______, KC_UP  , KC_P7  , KC_P8  , KC_P9  , KC_PAST, KC_F12 ,
+		_______, KC_HASH, KC_DLR , KC_LPRN, KC_RPRN, KC_GRV ,                    KC_DOWN, KC_P4  , KC_P5  , KC_P6  , KC_PPLS, KC_F13 ,
+		_______, KC_PERC, KC_CIRC, KC_LBRC, KC_RBRC, KC_TILD, _______,  _______, KC_PMNS, KC_P1  , KC_P2  , KC_P3  , KC_PSLS, _______,
+		_______, _______, _______, _______, _______,                                      KC_P0  , KC_PDOT, KC_PDOT, KC_PENT, KC_F15 ,
+		                                            RGB_MOD,  _______,  RGB_TOG,  RGB_SLD,
+		                                                      _______,  _______,
+		                                  RGB_VAD,  RGB_VAI,  _______,  _______,  RGB_HUD,  RGB_HUI
+
 		
-		LT(2,KC_EQUAL)  ,  KC_7   , KC_8   ,  KC_9     ,  KC_0            ,  KC_BSLASH      , KC_BSPACE,
-		ALGR_T(KC_MINUS),  KC_Y   , KC_U   ,  KC_I     ,  KC_O            ,  KC_P           , KC_DQUO  ,
-		                   KC_H   , KC_J   ,  KC_K     ,  KC_L            ,  LT(1,KC_SCOLON), KC_QUOTE ,
-		KC_B            ,  KC_N   , KC_M   ,  KC_COMMA ,  KC_DOT          ,  KC_SLASH       , KC_RSHIFT,
-		                            KC_RGUI,  KC_LEFT  ,  KC_DOWN         ,  KC_UP          ,  KC_RIGHT,
-		KC_LCBR         ,  KC_RCBR, KC_PGUP,  KC_PGDOWN,  RCTL_T(KC_ENTER),  KC_SPACE
-	),
-	*/
-
-  [0] = LAYOUT_ergodox_pretty(
-		KC_GRAVE        , KC_1 , KC_2   , KC_3      , KC_4   , KC_5, KC_6,              LT(2,KC_EQUAL)  , KC_7   , KC_8   , KC_9    , KC_0   , BACKCARET, KC_BSPACE,
-		KC_TAB          , KC_Q , KC_W   , KC_E      , KC_R   , KC_T, ALT_T(KC_EQUAL),   ALGR_T(KC_MINUS), KC_Y   , KC_U   , KC_I    , KC_O   , KC_P     , MONEYQ   ,
-		CTL_T(KC_ESCAPE), KC_A , KC_S   , KC_D      , KC_F   , KC_G,                                      KC_H   , KC_J   , KC_K    , KC_L   , LT1S     , KC_QUOTE ,
-		KC_LSHIFT       , KC_Z , XTRA   , KC_X      , KC_C   , KC_V, KC_B ,                      KC_B   , KC_N   , KC_M   , KC_COMMA, KC_DOT , KC_SLASH , KC_RSHIFT,
-		CTL_T(KC_DELETE), KC_F1, LT1G   , KC_MS_BTN1, KC_LGUI,                                                     KC_RGUI, KC_LEFT , KC_DOWN, KC_UP    , KC_RIGHT ,
-
-		                                                            KC_LBRACKET, KC_RBRACKET,  KC_LCBR, KC_RCBR,
-		                                                                             KC_HOME,  KC_PGUP,
-		                                                          KC_SPACE,     BARS, KC_END,  KC_PGDOWN, RCTL_T(KC_ENTER), KC_SPACE
 	),
 
-  [1] = LAYOUT_ergodox(
-		________,  KC_F1   ,  KC_F2   ,  KC_F3      ,  KC_F4      ,  KC_F5   ,  KC_F6   ,   
-		________,  KC_EXLM ,  KC_AT   ,  KC_LCBR    ,  KC_RCBR    ,  KC_PIPE ,  ________,
-		________,  KC_HASH ,  KC_DLR  ,  KC_LPRN    ,  KC_RPRN    ,  KC_GRAVE,
-		________,  KC_PERC ,  KC_CIRC ,  KC_LBRACKET,  KC_RBRACKET,  KC_TILD ,  ________,
-		________,  ________,  ________,  ________   ,  ________,
-		RGB_MOD ,  ________,  ________,  RGB_VAD    ,  RGB_VAI    ,  ________,
-		
-		________,  KC_F7      ,  KC_F8    ,  KC_F9      ,  KC_F10    ,  KC_F11     , KC_DELETE,
-		________,  KC_UP      ,  KC_KP_7  ,  KC_KP_8    ,  KC_KP_9   ,  KC_ASTR    , KC_F12   ,
-		           KC_DOWN    ,  KC_KP_4  ,  KC_KP_5    ,  KC_KP_6   ,  KC_KP_PLUS , KC_F13   ,
-		________,  KC_KP_MINUS,  KC_KP_1  ,  KC_KP_2    ,  KC_KP_3   ,  KC_KP_SLASH, ________ ,
-		                         KC_KP_0  ,  KC_KP_DOT  ,  KC_KP_DOT ,  KC_KP_ENTER, KC_F15    ,
-		RGB_TOG ,  RGB_SLD    ,  ________ ,  ________   ,  RGB_HUD   ,  RGB_HUI
+	[2] = LAYOUT_ergodox_pretty(
+		_______, KC_F20 , KC_F21 , _______, _______, _______, _______,  _______, KC_VOLD, KC_VOLU, _______, _______, _______, KC_DEL ,
+		_______, _______, _______, KC_MS_U, _______, _______, _______,  KC_MUTE, _______, _______, _______, _______, _______, _______,
+		KC_CAPS, _______, KC_MS_L, KC_MS_D, KC_MS_R, _______, _______,                    _______, _______, _______, _______, KC_MPLY,
+		KC_CAPS, ZOOMKEY, _______, _______, _______, _______, _______,  _______, _______, _______, KC_MPRV, KC_MNXT, _______, _______,
+		RESET  , _______, _______, KC_BTN1, KC_BTN2,                                      KC_VOLU, KC_VOLD, KC_MUTE, _______, _______,
+		                                             _______, _______,  _______, _______,
+		                                                      _______,  _______,
+		                                    _______, _______, _______,  _______, _______, KC_WBAK
 	),
 
-  [2] = LAYOUT_ergodox(
-		________   ,  KC_F20  ,  KC_F21    ,  ________  ,  ________   ,  ________,  ________,
-		________   ,  ________,  ________  ,  KC_MS_UP  ,  ________   ,  ________,  ________,
-		KC_CAPSLOCK,  ________,  KC_MS_LEFT,  KC_MS_DOWN,  KC_MS_RIGHT,  ________,
-		KC_CAPSLOCK,  ZOOMKEY ,  ________  ,  ________  ,  ________   ,  ________,  ________,
-		RESET      ,  ________,  ________  ,  KC_MS_BTN1,  KC_MS_BTN2 ,
-		________   ,  ________,  ________  ,  ________  ,  ________   ,  ________,
-		
-		________       , KC_AUDIO_VOL_DOWN, KC_AUDIO_VOL_UP, ________           , ________           , ________           , KC_DELETE,
-		KC_AUDIO_MUTE  , ________         , ________       , ________           , ________           , ________           , ________ ,
-		________       , ________         , ________       , ________           , ________           , KC_MEDIA_PLAY_PAUSE,
-		________       , ________         , ________       , KC_MEDIA_PREV_TRACK, KC_MEDIA_NEXT_TRACK, ________           , ________ ,
-		KC_AUDIO_VOL_UP, KC_AUDIO_VOL_DOWN, KC_AUDIO_MUTE  , ________           , ________           ,
-		________       , ________         , ________       , ________           , ________           , KC_WWW_BACK
-	),
-
-  [3] = LAYOUT_ergodox_pretty(
-		________, ________, ________, ________, ________, ________, ________,   ________, KC_AMPR , KC_PAST , KC_LBRACKET, KC_RBRACKET, KC_CIRC, ________,
-		________, ________, ________, ________, ________, ________, ________,   ________, ________, ________, KC_LCBR , KC_RCBR , ________, KC_DOLLAR,
-		________, ________, ________, ________, ________, ________,                       KC_LEFT , KC_DOWN , KC_UP   , KC_RIGHT, KC_EQUAL, ________,
-		________, ________, ________, ________, ________, ________, ________,   ________, BACKN   , KC_MINUS, EARROW  , ARROW   , COMMENT , ________,
-		________, ________, ________, ________, ________,                                           ________, ________, ________, ________, ________,
-
-		                                                  ________, ________,   ________, ________,
-		                                                            ________,   ________,
-		                                        ________, ________, ________,   ________, ________, ________
+	[3] = LAYOUT_ergodox_pretty(
+		_______, _______, _______, _______, _______, _______, _______,  _______, KC_AMPR, KC_PAST, KC_LBRC, KC_RBRC, KC_CIRC, _______,
+		_______, _______, _______, _______, _______, _______, _______,  _______, _______, _______, KC_LCBR, KC_RCBR, _______, KC_DOLLAR,
+		_______, _______, _______, _______, _______, _______,                    KC_LEFT, KC_DOWN, KC_UP  , KC_RGHT, KC_EQL , _______,
+		_______, _______, _______, _______, _______, _______, _______,  _______, BACKN  , KC_MINS, EARROW , ARROW  , COMMENT, _______,
+		_______, _______, _______, _______, _______,                                      _______, _______, _______, _______, _______,
+		                                             _______, _______,   _______, _______,
+		                                                      _______,   _______,
+		                                    _______, _______, _______,   _______, _______, _______
 	),
 };
 
@@ -195,7 +173,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 			}
 			return false;
 			break;
-		case BACKCARET:
+		case BCARET:
 			xtra_sent = true;
 			if( record->event.pressed ){
 				int mods = get_mods();
