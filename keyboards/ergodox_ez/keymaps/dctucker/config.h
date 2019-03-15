@@ -4,4 +4,4 @@
 */
 #define PERMISSIVE_HOLD
 //#define TAPPING_FORCE_HOLD
-
+//#undef STRICT_LAYER_RELEASE // doesn't do anything
