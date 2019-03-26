@@ -92,7 +92,9 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
 };
 
 bool xtra_sent = true;
+bool ctl_xtra_sent = true;
 uint16_t lctl_timer, rctl_timer;
+bool caps = false;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 	switch (keycode) {
@@ -111,32 +113,37 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 			break;
 		case CTLESC:
 			if( record->event.pressed ){
-				xtra_sent = false;
+				ctl_xtra_sent = false;
 				lctl_timer = timer_read();
 				register_code(KC_LCTL);
 			} else {
 				unregister_code(KC_LCTL);
-				if( ! xtra_sent ){
+				if( ! ctl_xtra_sent ){
 					if( timer_elapsed(lctl_timer) < 500 ){
-						send_string("\033");
+						if( caps ){
+							register_code(KC_CAPS);
+							unregister_code(KC_CAPS);
+						} else {
+							send_string("\033");
+						}
 					}
-					xtra_sent = true;
+					ctl_xtra_sent = true;
 				}
 			}
 			return false;
 			break;
 		case CTLENT:
 			if( record->event.pressed ){
-				xtra_sent = false;
+				ctl_xtra_sent = false;
 				rctl_timer = timer_read();
 				register_code(KC_RCTL);
 			} else {
 				unregister_code(KC_RCTL);
-				if( ! xtra_sent ){
+				if( ! ctl_xtra_sent ){
 					if( timer_elapsed(rctl_timer) < 500 ){
 						send_string("\n");
 					}
-					xtra_sent = true;
+					ctl_xtra_sent = true;
 				}
 			}
 			return false;
@@ -157,23 +164,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 					xtra_sent = true;
 				}
 			}
-			/*
-			if( record->event.pressed ){
-				int mods = get_mods();
-				if( mods & MOD_BIT(KC_RSHIFT) ){
-					add_key(KC_BSLASH);
-				} else {
-					add_key(KC_LSHIFT);
-					send_keyboard_report();
-					add_key(KC_MINUS);
-				}
-			} else {
-				del_key(KC_LSHIFT);
-				del_key(KC_BSLASH);
-				del_key(KC_MINUS);
-			}
-			send_keyboard_report();
-			*/
 			return false;
 			break;
 		case MONEYQ:
@@ -232,14 +222,19 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 			break;
 	}
 	xtra_sent = true;
+	if( record->event.pressed ){
+		ctl_xtra_sent = true;
+	}
 	return true;
 }
 
 void led_set_user(uint8_t usb_led)
 {
 	if( usb_led & (1<<USB_LED_CAPS_LOCK) ){
+		caps = true;
 		ergodox_right_led_3_on();
 	} else {
+		caps = false;
 		ergodox_right_led_3_off();
 	}
 }
