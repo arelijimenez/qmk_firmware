@@ -39,9 +39,9 @@ led_setup_t leds_off[] = {
     {.end = 1},
 };
 
-// Red
+// Orange
 led_setup_t leds_red[] = {
-    {.hs = 0, .he = 100, .rs = 255, .re = 255, .gs = 0, .ge = 0, .bs = 0, .be = 0, .ef = EF_NONE},
+    {.hs = 0, .he = 100, .rs = 248, .re = 248, .gs = 120, .ge = 120, .bs = 0, .be = 0, .ef = EF_NONE},
     {.end = 1},
 };
 
@@ -63,18 +63,18 @@ led_setup_t leds_white[] = {
     {.end = 1},
 };
 
-// White with moving red stripe
+// White with moving orange stripe
 led_setup_t leds_white_with_red_stripe[] = {
     {.hs = 0, .he = 100, .rs = 255, .re = 255, .gs = 255, .ge = 255, .bs = 255, .be = 255, .ef = EF_NONE},
-    {.hs = 0, .he = 15, .rs = 0, .re = 0, .gs = 0, .ge = 255, .bs = 0, .be = 255, .ef = EF_SCR_R | EF_SUBTRACT},
-    {.hs = 15, .he = 30, .rs = 0, .re = 0, .gs = 255, .ge = 0, .bs = 255, .be = 0, .ef = EF_SCR_R | EF_SUBTRACT},
+    {.hs = 0, .he = 15, .rs = 0, .re = 7, .gs = 0, .ge = 135, .bs = 0, .be = 255, .ef = EF_SCR_R | EF_SUBTRACT},
+    {.hs = 15, .he = 30, .rs = 7, .re = 0, .gs = 135, .ge = 0, .bs = 255, .be = 0, .ef = EF_SCR_R | EF_SUBTRACT},
     {.end = 1},
 };
 
-// Black with moving red stripe
+// Black with moving orange stripe
 led_setup_t leds_black_with_red_stripe[] = {
-    {.hs = 0, .he = 15, .rs = 0, .re = 255, .gs = 0, .ge = 0, .bs = 0, .be = 0, .ef = EF_SCR_R},
-    {.hs = 15, .he = 30, .rs = 255, .re = 0, .gs = 0, .ge = 0, .bs = 0, .be = 0, .ef = EF_SCR_R},
+    {.hs = 0, .he = 15, .rs = 0, .re = 248, .gs = 0, .ge = 120, .bs = 0, .be = 0, .ef = EF_SCR_R},
+    {.hs = 15, .he = 30, .rs = 248, .re = 0, .gs = 120, .ge = 0, .bs = 0, .be = 0, .ef = EF_SCR_R},
     {.end = 1},
 };
 
