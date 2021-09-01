@@ -5,3 +5,9 @@
 #define PERMISSIVE_HOLD
 //#define TAPPING_FORCE_HOLD
 //#undef STRICT_LAYER_RELEASE // doesn't do anything
+
+/*
+#undef TAPPING_TERM
+#define TAPPING_TERM 500
+#define TAPPING_FORCE_HOLD
+*/

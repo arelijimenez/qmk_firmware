@@ -20,6 +20,7 @@ enum custom_keycodes {
   MONEYQ,
   CTLESC,
   CTLENT,
+  TAPMNBS,
 };
 
 #define ZOOMKEY LALT(LCTL(LGUI(KC_Z)))
@@ -35,17 +36,18 @@ enum custom_keycodes {
 //RCTL_T(KC_ENTER)
 #define CTLDEL  CTL_T(KC_DELETE)
 #define MOUSE1 KC_MS_BTN1
+//#define TDMNBS TD(0)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[0] = LAYOUT_ergodox_pretty(
-		KC_GRV , KC_1   , KC_2   , KC_3   , KC_4   , KC_5   , KC_6   ,  LT2FIVE, KC_6   , KC_7   , KC_8   , KC_9   , KC_0   , KC_BSPC,
+		KC_GRV , KC_1   , KC_2   , KC_3   , KC_4   , KC_5   , KC_6   ,  LT2FIVE, KC_6   , KC_7   , KC_8   , KC_9   , KC_0   , KC_MNS ,
 		KC_TAB , KC_Q   , KC_W   , KC_E   , KC_R   , KC_T   , KC_EQL ,  KC_BSLS, KC_Y   , KC_U   , KC_I   , KC_O   , KC_P   , MONEYQ ,
 		CTLESC , KC_A   , KC_S   , KC_D   , KC_F   , KC_G   ,                    KC_H   , KC_J   , KC_K   , KC_L   , KC_SCLN, KC_QUOT,
 		KC_LSFT, KC_Z   , MOUSE1 , KC_X   , KC_C   , KC_V   , KC_B   ,  KC_B   , KC_N   , KC_M   , KC_COMM, KC_DOT , KC_SLSH, KC_RSFT,
 		CTLDEL , KC_F1  , LT1KPLS, KC_LALT, KC_LGUI,                                      KC_RGUI, KC_RALT, ALTMN  , KC_LBRC, KC_RBRC,
 		                                             KC_HOME, KC_END ,  KC_LEFT, KC_RGHT,
 		                                                      KC_PGUP,  KC_UP  ,
-		                                    KC_SPC , BARS   , KC_PGDN,  KC_DOWN, CTLENT , KC_SPC
+		                                    KC_BSPC, BARS   , KC_PGDN,  KC_DOWN, CTLENT , KC_SPC
 	),
 	[1] = LAYOUT_ergodox_pretty(
 		_______, KC_F1  , KC_F2  , KC_F3  , KC_F4  , KC_F5  , _______,  _______, KC_F6  , KC_F7  , KC_F8  , KC_F9  , KC_F10 , KC_DEL ,
@@ -58,7 +60,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 		                                   RGB_VAD, RGB_VAI,  _______,  _______,  RGB_HUD,  RGB_HUI
 	),
 	[2] = LAYOUT_ergodox_pretty(
-		_______, KC_F20 , KC_F21 , _______, _______, _______, _______,  _______, KC_VOLD, KC_VOLU, _______, _______, _______, KC_DEL ,
+		_______, KC_BRID, KC_BRIU, _______, _______, _______, KC_SLEP,  _______, KC_VOLD, KC_VOLU, _______, _______, _______, KC_DEL ,
 		_______, _______, _______, KC_MS_U, _______, _______, _______,  KC_MUTE, _______, _______, _______, _______, _______, _______,
 		KC_CAPS, _______, KC_MS_L, KC_MS_D, KC_MS_R, _______, _______,                    _______, _______, _______, _______, KC_MPLY,
 		KC_CAPS, ZOOMKEY, _______, _______, _______, _______, _______,  _______, _______, _______, _______, _______, _______, _______,
@@ -85,13 +87,42 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 		_______, _______, _______, _______, _______,                                      _______, _______, _______, _______, _______,
 		                                             _______, _______,  _______, _______,
 		                                                      _______,  _______,
-		                                    H12    , _______, _______,  _______, _______, H16
+		                                    H12    , _______, _______,  _______, _______, _______
 	),
 };
 
 const uint16_t PROGMEM fn_actions[] = {
   [1] = ACTION_LAYER_TAP_TOGGLE(1)
 };
+
+/*
+void on_each_tap_fn(qk_tap_dance_state_t *state, void *user_data) {
+	if (state->count == 1) {
+		send_string("-");
+	} else if (state->count == 2) {
+		send_string("-");
+	} else if (state->count == 3) {
+		send_string("\b\b");
+	} else if (state->count >= 4) {
+		send_string("\b");
+	} else {
+		//reset_tap_dance (state);
+	}
+}
+void on_dance_finished_fn(qk_tap_dance_state_t *state, void *user_data) {
+	if (state->count == 3) {
+		register_code(KC_BSPC);
+	}
+}
+void on_dance_reset_fn(qk_tap_dance_state_t *state, void *user_data) {
+	unregister_code(KC_BSPC);
+}
+
+qk_tap_dance_action_t tap_dance_actions[] = {
+  [0] = ACTION_TAP_DANCE_FN_ADVANCED(on_each_tap_fn, on_dance_finished_fn, on_dance_reset_fn)
+};
+*/
+
 
 // leaving this in place for compatibilty with old keymaps cloned and re-compiled.
 const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
@@ -135,14 +166,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 				unregister_code(KC_LCTL);
 				if( ! ctl_xtra_sent ){
 					if( timer_elapsed(lctl_timer) < 500 ){
-						/*
-						if( caps ){
-							register_code(KC_CAPS);
-							unregister_code(KC_CAPS);
+						if( host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK) ){
+							add_key(KC_RSHIFT);
+							add_key(KC_ESC);
+							send_keyboard_report();
+							del_key(KC_ESC);
+							del_key(KC_RSHIFT);
+							send_keyboard_report();
 						} else {
-						*/
-						send_string("\033");
-						//}
+							send_string("\033");
+						}
 					}
 					ctl_xtra_sent = true;
 				}
