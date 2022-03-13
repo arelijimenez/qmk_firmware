@@ -36,9 +36,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[_BASE] = KEYMAP(
 			F7,   F8,   F9,  GRV,    1,    2,    3,    4,    5,    6,    7,    8,    9,    0, MINS,  EQL, BSPC,  P7 ,   P8,   P9, \
 			F4,   F5,   F6,  TAB,    Q,    W,    E,    R,    T,    Y,    U,    I,    O,    P, LBRC, RBRC, BSLS,  P4 ,   P5,   P6, \
-			F1,   F2,   F3,  ESC,          A,    S,    D,    F,    G,    H,    J,    K,    L, SCLN, QUOT,        P1 ,   P2,   P3, \
+			F1,   F2,   F3,  CAPS,         A,    S,    D,    F,    G,    H,    J,    K,    L, SCLN, QUOT,        P1 ,   P2,   P3, \
 			F10,  F11,  F12,               Z,    X,    C,    V,    B,    N,    M, COMM,  DOT, SLSH,              P0 ,   UP, PDOT, \
-			F13 , CAPS, HACK,                                           SPC,                                ENT, LEFT, DOWN, RGHT, \
+			F13 , ESC , HACK,                                           SPC,                                ENT, LEFT, DOWN, RGHT, \
 			LCTL, LSFT, LALT, LGUI,                                     RGUI, RALT, RSFT, RCTL                    ),
 	/* layer 1 */
 	[_FN] = KEYMAP(
